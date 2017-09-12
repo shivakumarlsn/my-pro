@@ -1,0 +1,26 @@
+<div class="ngdialog-message">
+    <div>Please provide either your email address or cell phone to receive the promo code.</div>
+    <form name="myForm">
+        <div class="form-horizontal clear" >
+            <label for="name" class="control-label">Email Address</label>
+            <div class="controls">
+                <input type="email" name="email" placeholder="Email Address" ng-model="offers.contactEmail" emailformat required />
+                <span class="x-form-invalid-under" ng-show="myForm.email.$error.emailValidation">Invalid email</span>
+            </div>
+        </div>
+        <div class="text-align-center">OR</div>
+        <div class="form-horizontal clear" >
+            <label for="name" class="control-label">Cell Phone #</label>
+            <div class="controls">
+                <input type="text" name="mobilephone" placeholder="Cell Phone #" ng-model="offers.contactNumber" phoneformat/>
+                <span class="x-form-invalid-under" ng-show="myForm.mobilephone.$error.telephone">Invalid number.</span>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="ngdialog-buttons">
+    <button type="button" class="post-btn ngdialog-button ngdialog-button-primary" ng-click="getCouponCode(true)">Ok</button>
+    <button type="button" class="post-btn ngdialog-button ngdialog-button-secondary" ng-click="closeThisDialog('button')">Cancel</button>
+    <!--    <input type="button" class="btn btn-default float-right post-btn" value="OK" ng-click="getCouponCode(true)" />
+        <input type="button" class="btn btn-default float-right post-btn" data-dismiss="modal" value="Cancel" />-->
+</div>

@@ -1,0 +1,23 @@
+
+<form name="myForm">
+<div>
+    <h4 style='font-size: 14px;'>Send promo details and promo code to:</h4>
+</div>
+<div style='text-align: center'>
+    Promo Code: <span style="border:1px dashed #0090ef; background:#fff; font-size: 18px; display:inline-block; color: #fff; padding:7px 15px 7px 15px; margin:0px; font-weight: normal; color:#0090ef; text-decoration:none; text-align:center; mso-hide: all;" target="_blank"> {{offers.couponCode}} </span>
+</div>
+<div class="form-horizontal" style='padding-top: 15px;'>
+    <label for="name" class="control-label" style="width:50px;">Email</label>
+    <div class="controls" style="margin-left:0px;">
+        <input style='width:75%;' type="text" name='email' placeholder="Enter Email" class="offer-zipcode" ng-model="email" emailformat required/> 
+<!--        <span class="x-form-invalid-under" ng-show="myForm.email.$error.emailValidation">Invalid email</span>-->
+        <div class="comp-error-masge" ng-if="!email && !submitForm">Please Enter email.</div>
+        <div class="comp-error-masge" ng-if="email && !isValidEmail(email)">Please Enter valid email.</div>
+    </div>
+</div>
+
+<div class="ngdialog-buttons" style='padding-top:10px;'>
+    <button type="button" class="post-btn ngdialog-button ngdialog-button-primary" ng-disabled='!isValidEmail(email)' ng-click="sendPromoCode(email);">Send</button>
+</div>
+    <loading style='text-align: center;' ng-show='loading'>Processing........</loading>
+</form>

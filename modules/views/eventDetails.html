@@ -1,0 +1,365 @@
+<!--<div class="previewModeContainer" ng-if="events.preview === 'true'">
+    <div class="preview-icons-container">
+    <div class="offer-preview-label">Preview : </div>
+    <div class="preview-icons icons desktop-icon" ng-click="previewMode('desktop')" title="PC"></div>                  
+    <div class="preview-icons icons mobile-icon" ng-click="previewMode('mobile')" title="Phone"></div>
+    <div class="preview-icons icons tablet-icon" ng-click="previewMode('ipad')" title="Tablet"></div>
+    </div>
+</div>-->
+<div class="offer-preview-details {{events.PreviewClass}}" id="offerPreview" ng-if="!isEmptyeventDetails" ng-class="events.preview === 'true'?'previewMode': ''">
+    <div class="header-view text-align-center" ng-show="!events.companyWebSiteUrl" ng-class="events.cta_Url?'offerTopMargin': ''">
+        <img ng-if="events.logo && events.showLogo" class="offer-logo" ng-src="{{events.logo}}" /> 
+        <div ng-if="events.companyName && events.showName" class="companyName " ng-bind="events.companyName" ></div>
+    </div>
+    <div class="header-view text-align-center" ng-show="events.companyWebSiteUrl" ng-class="events.cta_Url?'offerTopMargin': ''">
+        <a target="_blank" ng-href="{{events.companyWebSiteUrl}}"><img ng-if="events.logo && events.showLogo" class="offer-logo" ng-src="{{events.logo}}" /> </a>
+        <a target="_blank" ng-href="{{events.companyWebSiteUrl}}"> <div ng-if="events.companyName && events.showName" class="companyName " ng-bind="events.companyName" ></div></a>
+    </div>
+    <div class="innerContainer" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div ng-if="events.cta_Url" class="ngdialog-title x-banner-ad-tittle" ng-style="{'background-color':'{{theme.backGroundColor}}', 'color':'{{theme.textColor}}', 'font-family':'{{theme.fontFamily}}'}"> 
+            <div class="x-banner-ad-company-info x-banner-ad-company-logo">
+                <img ng-if="events.bannerCompanyLogo" class="x-banner-ad-company-title" ng-src="{{events.bannerCompanyLogo}}"/>
+                <div ng-if="events.bannerCompanyName" class="x-banner-ad-company-title" ng-bind="events.bannerCompanyName">               
+                </div>   
+            </div>                   
+            <div ng-if="events.bannerTitle" element-width class="x-banner-ad-company-info x-banner-ad-main-title-container" >
+                <a ng-href="{{events.cta_Url}}" target="_blank">
+                    <span class="banner-headLine" ng-bind="events.bannerTitle"></span>
+                    <span class="x-banner-bannerLabel" ng-bind="events.cta_Label" ng-style="{'background-color':'{{theme.buttonColor}}', 'color':'{{theme.buttonTextColor}}', 'border-color':'{{theme.buttonColor}}'}"></span>
+                </a>
+            </div> 
+            <div class="x-banner-ad-company-info banner-close"><span class="banner-close-btn" ng-click="closeBanner()">x</span></div>
+        </div>
+
+
+        <h3 class="pagetitle visible-xs" ng-style="{'color': events.titleColor}" ng-bind="events.headline"></h3>
+        <div class="row offer-upperview stickyBlockContainer ">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-12 stickyLeftContainer">
+                <div class="bannerImageContainer" ng-if="events.promoImages.length == 1">
+                    <div class="bannerImage">
+                        <img ng-src="{{events.promoImages[0].url}}"/>
+                    </div>
+                </div>
+                <div id="slides_control" ng-if="events.promoImages.length > 1">
+                    <div>
+                        <carousel interval="carouselInrerval">
+                            <slide ng-repeat="slide in events.promoImages" active="slide.active">
+                                <img ng-src="{{slide.url}}" resize el-size="size">
+                            </slide>
+                        </carousel>
+                    </div>
+                </div> 
+
+                <div class="clear offer-block" ng-if="events.highlights">
+                    <h4 class="highlights-title title" ng-style="{'border-bottom-color': events.buttonColor}">Event Highlights</h4>
+                    <p class="content-padding" ng-bind-html="events.highlights"></p>
+                </div>
+                <div class="clear offer-block" ng-if="events.eventDetails">
+                    <h4 class="highlights-title title" ng-style="{'border-bottom-color': events.buttonColor}">Event Details</h4>
+                    <p class="content-padding" ng-bind-html="events.eventDetails"></p>
+                </div>
+                <div class="clear googleMap-col hidden-xs" ng-if="events.isShowGoogleMap" >
+                    <div id="googleMap" style="width:100%;height:300px;"></div>
+                </div>  
+                <div class="clear offer-block" ng-if='events.contactUsObj.firstname || events.contactUsObj.lastname || events.contactUsObj.email || events.contactUsObj.contactno || events.contactUsObj.jobtitle || events.address'>
+                    <h4 class="title" ng-style="{'border-bottom-color': events.buttonColor}">CONTACT INFO</h4>
+                    <div class="content-padding">
+                        <div class='firstname' ng-if="events.contactUsObj && events.contactUsObj.firstname">
+                            <h4>Name</h4>
+                            <div class='firstname-temp' ng-bind-html="events.contactUsObj.firstname"></div>
+                        </div>
+                        <div class='address' ng-if="events.address">
+                            <div class='address-temp' ng-bind-html="events.address"></div>
+                        </div>
+                        <div class='firstname' ng-if="events.contactUsObj && events.contactUsObj.email">
+                            <h4>Email</h4>
+                            <div class='firstname-temp' ng-bind-html="events.contactUsObj.email"></div>
+                        </div>
+                        <div class='firstname' ng-if="events.contactUsObj && events.contactUsObj.contactno">
+                            <h4>Phone</h4>
+                            <div class='firstname-temp' ng-bind-html="events.contactUsObj.contactno"></div>
+                        </div>
+                        <!-- <div class="company-url" ng-if="events.companyAddress == ''"><a ng-if="events.companyAddressObj.url" target="_blank" href="{{events.companyWebSiteUrl}}" ng-bind="events.companyAddressObj.url" class="companyAddressUrl"></a></div>-->
+                    </div>
+                </div>
+                <div class="clear googleMap-col visible-xs" ng-if="events.isShowGoogleMap">
+                    <div id="googleMapMobile" style="width:100%;height:200px;"></div>
+                </div>  
+                <div ng-if="events.isShare" ng-include="socialShareView" ng-cloak class="ng-cloak social-share"></div>
+            </div>
+            <div class="col-lg-5 col-md-5 col-sm-5 col-xs-12 rightstickyBlock" >
+                <div class="side left" set-class-when-at-top="fix-to-top" >
+                <div class="stickyBlock">
+                <h3 class="pagetitle" ng-style="{'color': events.titleColor}" ng-bind="events.headline"></h3>
+                <div class="offer-actions-responce">
+                    <div class="offer-dicount-view">
+                        <div class="offer-discount">
+                            <!--                        <span ng-if="events.offerType != 'Cash savings' && events.offerType != 'Free Shipping' && events.offerType != 'Other'">{{events.bannerText}}</span>
+                                                    <span ng-if="events.offerType === 'Cash savings'">${{events.bannerText}}</span>
+                                                    <span ng-if="events.offerType === 'Free Shipping'">Free Shipping</span>-->
+                            <span class="verticalalignBlock">
+                                <span class="verticalalignBlockInner">
+                                    <span class="bannerText">{{events.bannerText}}</span>
+                                    <input ng-disabled="eventCompleted() === true" type="button" class="btn btn-default coupon-btn" ng-click="getCouponCode()" ng-value="events.getCouponCode" ng-style="{'background-color': events.buttonColor , 'color': events.buttonTextColor}"/>
+                                </span>
+                            </span>
+                            <div class="" >
+                                <input ng-disabled="eventCompleted() === true" ng-if="events.signupOption === 'rsvp' && events.showRsvp" type="button" class="rsvpButton" ng-click="eventRsvpForm()" value="RSVP for Event" />
+                                <input ng-disabled="eventCompleted() === true" ng-if="events.signupOption === 'rsvp' && events.embedCode" type="button" class="rsvpButton" ng-click="eventRsvpForm()" value=" Show Rsvp Embed Code" />
+                                <input ng-disabled="eventCompleted() === true" ng-if="events.signupOption === 'contactus'" type="button" class="rsvpButton" ng-click="eventRsvpForm()" value="Contact Us" />
+                                <a ng-disabled="eventCompleted() === true" ng-if="events.signupOption === 'rsvp' && events.external_link" target="_blank" ng-href="{{events.external_link}}" >External Rsvp</a>
+                                <a ng-disabled="eventCompleted() === true" ng-if="events.signupOption === 'buytickets' && events.external_link" target="_blank" ng-href="{{events.external_link}}" >Buy Tickets</a>
+                                <!--    <button class='rsvpButton' ng-click='eventRsvpForm()' >RSVP for Event </button>-->
+                            </div>
+                        </div>
+                        <!--                    <div class="offer-text">
+                                                <span ng-if="events.offerType != 'Cash savings' && events.offerType != 'Free Shipping' && events.offerType != 'Other'">Discount</span>
+                                                <span ng-if="events.offerType === 'Cash savings'">Cash Savings</span>
+                                                <span ng-if="events.offerType === 'Free Shipping'">Shipping</span>
+                                            </div>-->
+                    </div>
+                </div>
+
+                <!--            <div class="visible-phone mobile-offer-discount">
+                                <div class="mobile-remaining discount-view">
+                                    <span ng-if="events.offerType != 'Cash savings'"><span>{{events.discount}}%</span><span> Discount </span></span>
+                                    <span ng-if="events.offerType === 'Cash savings'"><span>${{events.cashSavings}}</span><span> Cash Savings </span></span>
+                                </div>
+                            </div>-->
+
+                <!--            <div class="expiration-col clear">                        
+                                
+                                <div ng-if="offerResponceMessage" class="expiration-date" ng-style="{color:  '#cf4c35' }">{{offerResponceMessage}}</div>
+                                <div class="expiration-date" ng-if="events.expiredMsg" ng-style="{color:  '#cf4c35' }">{{events.expiredMsg}}</div>
+                                
+                                <div class='promo-buttons' ng-show='promoOptions'>
+                                    <button class='promo-button' ng-click="sendEmail();"><span><i class='email-icon'></i> Mail </span></button>
+                                    <button class='promo-button' ng-click="downloadOfferCode();"><span><i class='download-icon'></i> Download</span></button>
+                                    <button class='promo-button' ng-click="printOverallReport();"><span><i class='print-icon'></i> Print</span></button>
+                                </div>
+                                
+                                <div class="offer-bought" ng-if="events.isShowActivatedOrRemainingCount && events.isPromo">
+                                    <div class="rounded-border"></div>
+                                    <span class="offer-text">Activated</span>
+                                    <span class="activation-limit">{{events.activated}}</span>
+                                </div>
+                                <div class="offer-remaining" ng-if="events.activationLimit != -1 && events.isShowActivatedOrRemainingCount && events.isPromo">
+                                    <div class="rounded-border"></div>
+                                    <span class="offer-text" ng-if="events.activationLimit != -1">| Remaining </span>
+                                    <span class="activation-limit" ng-if="events.activationLimit != -1" ng-bind="events.activationLimit"></span>
+                                </div>
+                                <div>
+                                <div class="expiration-date">
+                                    <div ng-if="isShowErrorMessage()"><span ng-if="events.offerDateMessage != 'Available until'" ng-bind="events.offerDateMessage" ng-style="events.offerDateMessage === 'offer not available online' || events.offerDateMessage == 'Sold Out' ? {color:  '#cf4c35' } : '' "></span></div> 
+                                    <div class="offer-expire-date" ng-if="events.OfferDate && (events.offerDateMessage !== 'offer not available online')">{{events.offerDateMessage}} {{events.OfferDate| date: "MM/dd/yy"}}</div>
+                                    <div ng-if="!events.expirationDate">No expiry date</div>
+                                    <button class='offerRedem' ng-click='redemptionData();'> Offer Redemption</button>
+                                </div>
+                                </div>
+                                <div class="text-align-center clear company-url"><a ng-if="events.companyAddressObj.url" target="_blank" href="{{events.companyWebSiteUrl}}" ng-bind="events.companyAddressObj.url" class="companyAddressUrl"></a></div>
+                                
+                                
+                                <div class="clear"></div>
+                
+                            </div>-->
+
+                <div class="clear border timerBlock" ng-if="eventStarted() === false && events.eventStartDate">
+                    <div class="sectionTitle">Hurry Up! Event Starts In</div>
+                    <timer interval="1000" end-time= "events.eventStartDate"><span class="timerGroup"><span class="timerCount">{{ddays}}</span> <span class="timerLabel"> day{{daysS}}</span></span>:<span class="timerGroup"> <span class="timerCount">{{hhours}}</span> <span class="timerLabel"> hour{{hoursS}}</span></span>: <span class="timerGroup"><span class="timerCount">{{mminutes}}</span> <span class="timerLabel">minute{{minutesS}}</span></span>:<span class="timerGroup"> <span class="timerCount">{{sseconds}}</span> <span class="timerLabel">second{{secondsS}}</span></span></timer>
+                </div>
+                
+                
+                <!--                <div class="clear border timerBlock" ng-if="eventStarted() === true && eventCompleted() === false && events.eventEndDate">
+                                <div class="sectionTitle">Hurry Up! Event Ends In</div>
+                                <timer interval="1000" end-time= "events.eventEndDate"><span class="timerGroup"><span class="timerCount">{{ddays}}</span> <span class="timerLabel"> day{{daysS}}</span></span>:<span class="timerGroup"> <span class="timerCount">{{hhours}}</span> <span class="timerLabel"> hour{{hoursS}}</span></span>: <span class="timerGroup"><span class="timerCount">{{mminutes}}</span> <span class="timerLabel">minute{{minutesS}}</span></span>:<span class="timerGroup"> <span class="timerCount">{{sseconds}}</span> <span class="timerLabel">second{{secondsS}}</span></span></timer>
+                                </div>-->
+                <div class="eventClosed" ng-if="eventCompleted() === true">Event Closed</div>
+                
+                <calendar calendar-mode="mode" queryMode="remote" range-changed="rangeChanged(startTime,endTime)" event-source="eventSource"></calender>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="clear"></div>
+
+    </div>
+        <div class="innerContainer scheduleBlockContainer eventDetailsContainer" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div class="eventDetailsTitle">schedule</div>
+        <tabset class="eventDetailTabs">
+            <tab ng-repeat="schedule in events.schedule track by $index" class="scheduleTab" title="{{schedule.title}}" active="tab.active" disabled="tab.disabled" >
+                <tab-heading>
+                    <div>{{schedule.title}}</div>
+                    <span class="scheduleDate">{{schedule.startDate | date: "shortDate"}}</span>
+                </tab-heading>
+                <accordion close-others="true">
+                    <accordion-group class="scheduleTimelineBlock" ng-repeat="session in schedule.sessions track by $index" is-open="status.open">
+                        <accordion-heading>
+                            <div class="timelineBlock">
+                                <div ng-repeat="speaker in session.speakers">
+                                    <div class="speakerImgBlock" random-backgroundcolor >{{speaker.charAt(0)}}</div>
+                                </div>
+                                <div class="" ng-if="session.speakers.length == 0 || session.speakers === null">
+                                    <div class="speakerImgBlock timerIcon" ></div>
+                                </div>
+                            </div>
+                            <div class="headerRightBlock"><span class="sessionTime">{{session.startDate | date:'shortTime'}}</span> <span class="sessionTime">{{session.endDate | date:'shortTime'}}</span><div class="sessionName">{{session.sessionName}} <i class="pull-right accordionarrow" ng-class="{'arrow-down': status.open, 'arrow-right': !status.open}"></i></div></div>
+                        </accordion-heading>
+                            {{session.sessionDetails}}
+                        It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+                    </accordion-group>
+                </accordion>
+            </tab>
+        </tabset>
+    </div>
+    <div class="innerContainer sessionBlockContainer eventDetailsContainer eventDetailTabs" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div class="eventDetailsTitle">sessions</div>
+        <div class="eventDetailTabs">
+            <div class="active tabBlock">
+                <div >Session Info</div><span class="scheduleDate">{{events.eventStartDate | date: "shortDate"}}</span>
+            </div>
+            <accordion close-others="true">
+                <accordion-group class="scheduleTimelineBlock" ng-repeat="session in events.sessions track by $index" is-open="status.open">
+                    <accordion-heading>
+                        <div class="timelineBlock">
+                            <div ng-repeat="speaker in session.speakers">
+                                <div class="speakerImgBlock" random-backgroundcolor >{{speaker.charAt(0)}}</div>
+                            </div>
+                            <div class="" ng-if="session.speakers.length == 0 || session.speakers === null">
+                                <div class="speakerImgBlock timerIcon" ></div>
+                            </div>
+                        </div>
+                        <div class="headerRightBlock"><span class="sessionTime">{{session.startDate | date:'shortTime'}}</span> <span class="sessionTime">{{session.endDate | date:'shortTime'}}</span><div class="sessionName">{{session.sessionName}} <i class="pull-right accordionarrow" ng-class="{'arrow-down': status.open, 'arrow-right': !status.open}"></i></div></div>
+                    </accordion-heading>
+                    {{session.sessionDetails}}
+                    It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English.
+                </accordion-group>
+            </accordion>
+        </div>
+    </div>
+    <div class="innerContainer sponsersBlockContainer eventDetailsContainer" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div class="eventDetailsTitle">sponsors</div>
+        <div class="cauroselCotnainer">
+            <data-owl-carousel class="owl-carousel owl-theme" data-options="{nav: true, items: 4,margin: 15, dots: false}">
+                <div owl-carousel-item="" ng-repeat="item in events.sponsors"resize courosel-Resize="size" class="item sponsors">
+                    <div class="sponsorsImgContainer centerImageContainer">
+                        <div class="centerImageBlock">
+                        <img class="sponsorsImg" alt="speakerImg" ng-src="{{item.logo}}">
+                        </div>
+                    </div>
+                </div>
+            </data-owl-carousel>
+        </div>
+    </div>
+    <div class="innerContainer speakerBlockContainer eventDetailsContainer" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div class="eventDetailsTitle">SPEAKERS</div>
+        <div class="cauroselCotnainer">
+            <data-owl-carousel class="owl-carousel owl-theme" data-options="{nav: true, items: 4,margin: 10, dots: false}">
+                <div owl-carousel-item="" ng-repeat="speaker in events.speakers"resize courosel-Resize="size" class="item speakerBlocks">
+                    <div class="speakerImgContainer">
+                        <img class="speakerImg" alt="speakerImg" ng-src="{{speaker.profileImage}}">
+                    </div>
+                    <div class="speakerName">{{speaker.speakerName}}</div>
+                    <div class="speakerId">{{speaker.speakerId}}</div>
+                    <div class="speakerDesc">{{speaker.bio}}</div>
+                    <div class="socialProfilesContainer">
+                    <div class="socialProfilesBlock" ng-repeat="(key, val) in speaker.socialProfiles">
+                        <a ng-if="key ==='facebook'" ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        <a ng-if="key ==='twitter'" ng-href="http://twitter.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        <a ng-if="key ==='linkedin'" ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        <a ng-if="key ==='google'" ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        <a ng-if="key ==='wordPress'" ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        <a ng-if="key ==='instagram'" ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                    </div>
+                    </div>
+                </div>
+            </data-owl-carousel>
+        </div>
+    </div>
+    <div class="innerContainer speakerBlockContainer eventDetailsContainer" ng-style="{'font-family': events.fontFamily, 'color': events.textColor, 'background-color': events.bgColor, 'border-color': events.borderColor, 'border-width': events.borderWidth, 'border-style': events.borderStyle}">
+        <div class="eventDetailsTitle">partners</div>
+        <div class="cauroselCotnainer">
+            <data-owl-carousel class="owl-carousel owl-theme" data-options="{nav: true, items: 4,margin: 10}">
+                <div owl-carousel-item="" ng-repeat="partner in events.partners" resize courosel-Resize="size" class="item speakerBlocks">
+                    <div class="speakerImgContainer">
+                        <img class="speakerImg" alt="speakerImg" ng-src="{{partner.profileImage}}">
+                    </div>
+                    <div class="speakerName">{{partner.speakerName}}</div>
+                    <div class="speakerId">{{partner.speakerId}}</div>
+                    <div class="speakerDesc">{{partner.bio}}</div>
+                    <div class="socialProfilesBlock" ng-repeat="(key, val) in partner.socialProfiles">
+                        <div class="" ng-if="key ==='facebook'">
+                            <a ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                        <div class="" ng-if="key ==='twitter'">
+                            <a ng-href="http://twitter.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                        <div class="" ng-if="key ==='linkedin'">
+                            <a ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                        <div class="" ng-if="key ==='google'">
+                            <a ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                        <div class="" ng-if="key ==='wordPress'">
+                            <a ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                        <div class="" ng-if="key ==='instagram'">
+                            <a ng-href="https://www.facebook.com/{{val}}"><span class="{{key}} socialProfilesIcon"></span></a>
+                        </div>
+                    </div>
+                </div>
+            </data-owl-carousel>
+        </div>
+    </div>
+</div>
+
+<div class="offer-preview-details isEmptyOffer" ng-if="isEmptyeventDetails">
+    The Event you are looking for has been de-activated.
+</div>
+
+
+<div ng-hide="true">
+    <div id="downloadArea">
+        <form name="myForm">
+            <div>
+                <h3>{{title}}</h3>
+            </div>
+            <div>
+                <p>Promo Code: {{events.couponCode}}</p>
+            </div>
+            <div>
+                <p ng-bind-html="events.redemptionInstructions">
+                </p>
+            </div>
+        </form>
+    </div>
+</div>
+
+<div ng-hide="true" id='printArea'>
+    <center>
+        <table align="center" style="border:1px solid #d9dadb; width:100%; text-align: center; font-family: arial;">
+            <tbody>
+                <tr ng-if="events.logo && events.showLogo">
+                    <td> <img  style=" max-width:100%; max-height:70px; width:auto; height:auto; " ng-src="{{events.logo}}"/> </td>
+                </tr>
+                <tr>
+                    <td ng-if="events.companyName && events.showName" style="width:100%; padding: 10px 20px; text-align:center; font-family: arial; font-size: 19px; color: #4a4c54; margin:0px; border-bottom:1px solid #d9dadb;">{{events.companyName}} </td>
+                </tr>    
+                <tr>
+                    <td align="center" style=" width:100%; padding: 10px 20px;text-align:center; font-family: arial; font-size: 17px; color: #4a4c54; margin:0px; ">{{title}}</td>
+                </tr>
+                <tr>
+                    <td  style="width:100%; padding: 0px 20px 5px 20px; margin: 0px; mso-hide: all; font-size:14px; font-weight:bold;">Promo Code: <span style="border:1px dashed #0090ef; background:#fff; font-size: 18px; display:inline-block; color: #fff; padding:7px 15px 7px 15px; margin:0px; font-weight: normal; color:#0090ef; text-decoration:none; text-align:center; mso-hide: all;" target="_blank">{{events.couponCode}}</span>
+                    </td>                        
+                </tr>
+            <td ng-if='events.expirationDate' style="width:100%; font-family: arial; padding: 5px 20px 5px 20px; color:#4a4c54; font-size: 14px; font-weight: normal; margin: 0px 0px 0px 0px; text-align:center;">Available until: {{events.expirationDate| date: "MM/dd/yy"}}
+            </td>
+            <tr>
+                <td valign="middle" align="left" style="font-size:14px; color:#4a4c54; font-family:Arial;padding-top:0px; padding-right:10px; padding-bottom:20px; padding-left:10px; margin:0px; line-height:1.5em; text-align:left;"><p ng-bind-html='events.redemptionInstructions'></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </center>
+</div>
+
+<div id="editor"></div>

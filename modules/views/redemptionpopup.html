@@ -1,0 +1,29 @@
+<div class='redem'>
+    <center>
+        <table align="center" style="width:100%; text-align: center; font-family: arial;">
+            <tbody>
+                <tr> <td> <img ng-if="offers.logo && offers.showLogo" class="offer-logo" ng-src="{{offers.logo}}" ng-style="{ 'border-bottom' : (offers.companyName) ? '' : '1px solid #d9dadb' }"/> </td> </tr>
+                <tr> <td ng-if="offers.companyName && offers.showName" class="redemName">{{offers.companyName}} </td></tr>
+                <tr>
+                    <td align="center" class='redemTitle'> {{title}} </td>
+                </tr>
+                <tr>
+                    <td class='redemCodeText'>Promo Code: <span> {{offers.couponCode}} </span>
+                    </td>                       
+                </tr>
+            <td  ng-if='offers.expirationDate' class='redemExpireDate'>Available until: {{offers.expirationDate | date: "MM/dd/yy"}}
+            </td>
+            <tr>
+                <td valign="middle" align="left" class='redemContent'> <p ng-bind-html="offers.redemptionInstructions"></p>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <div class='promo-buttons ngdialog-buttons'>
+         <h4 style='font-size: 14px;color: blue;float: left;padding-top: 5px;'>Save offer via:</h4>
+                    <button class='promo-button' ng-click="sendEmail();"><span><i class='email-icon'></i> Email </span></button>
+                    <!--<button class='promo-button' ng-click="downloadOfferCode();"><span><i class='download-icon'></i> Download</span></button>-->
+                    <button class='promo-button' ng-click="printOverallReport();"><span><i class='print-icon'></i> Print</span></button>
+        </div>
+    </center>
+</div>
